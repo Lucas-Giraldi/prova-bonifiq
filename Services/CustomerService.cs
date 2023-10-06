@@ -6,21 +6,23 @@ namespace ProvaPub.Services
 {
     public class CustomerService
     {
-        TestDbContext _ctx;
+        private readonly TestDbContext _ctx;
 
         public CustomerService(TestDbContext ctx)
         {
             _ctx = ctx;
         }
 
-        public CustomerList ListCustomers(int page)
+        public GenericList<Customer> ListCustomers(int page)
         {
-            return new CustomerList() { HasNext = false, TotalCount = 10, Customers = _ctx.Customers.ToList() };
+            return new GenericList<Customer>() { HasNext = false, TotalCount = 10, List = _ctx.Customers.ToList() };
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
         {
-            if (customerId <= 0) throw new ArgumentOutOfRangeException(nameof(customerId));
+
+            var lista = _ctx.Customers.ToList();
+                if (customerId <= 0) throw new ArgumentOutOfRangeException(nameof(customerId));
 
             if (purchaseValue <= 0) throw new ArgumentOutOfRangeException(nameof(purchaseValue));
 

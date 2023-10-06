@@ -21,7 +21,17 @@ namespace ProvaPub.Repository
 			modelBuilder.Entity<Product>().HasData(getProductSeed());
 		}
 
-		private Customer[] getCustomerSeed()
+
+        public static TestDbContext CreateDbContextForTesting()
+        {
+            var options = new DbContextOptionsBuilder<TestDbContext>()
+                .UseSqlServer("YourConnectionStringHere") // Substitua pela sua string de conexão real
+                .Options;
+
+            return new TestDbContext(options);
+        }
+
+        private Customer[] getCustomerSeed()
 		{
 			List<Customer> result = new();
 			for (int i = 0; i < 20; i++)
